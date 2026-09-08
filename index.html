@@ -1,1 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Susteencar - Carros Elétricos do Futuro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+    <!-- BARRA DE ACESSIBILIDADE E IDIOMAS -->
+    <header class="top-accessibility" role="region" aria-label="Ferramentas de Acessibilidade">
+        <div class="container accessibility-controls">
+            <button id="toggle-theme" aria-label="Alternar Modo Claro e Escuro">🌙 Modo Escuro</button>
+            
+            <div class="font-controls">
+                <button id="font-decrease" aria-label="Diminuir tamanho da fonte">A-</button>
+                <button id="font-increase" aria-label="Aumentar tamanho da fonte">A+</button>
+                <select id="font-family-select" aria-label="Alterar Tipo de Fonte">
+                    <option value="sans-serif">Fonte Padrão (Sem Serifa)</option>
+                    <option value="OpenDyslexic, sans-serif">Fonte para Dislexia</option>
+                    <option value="monospace">Fonte Monospaçada</option>
+                </select>
+            </div>
+
+            <button id="toggle-screen-reader" aria-label="Ativar Leitor de Voz e Audiodescrição">🔊 Audiodescrição: OFF</button>
+
+            <div class="lang-selector">
+                <label for="language-select">🌐 Idioma:</label>
+                <select id="language-select">
+                    <option value="pt-BR">Português (BR)</option>
+                    <option value="en-US">English (US)</option>
+                    <option value="it-IT">Italiano</option>
+                    <option value="zh-CN">Mandarin (中文)</option>
+                    <option value="es-ES">Español</option>
+                    <option value="fr-FR">Français</option>
+                    <option value="de-DE">Deutsch</option>
+                    <option value="ar-SA">العربية (Árabe)</option>
+                    <option value="ru-RU">Русский (Russo)</option>
+                    <option value="ja-JP">日本語 (Japonês)</option>
+                    <option value="ko-KR">한국어 (Coreano)</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <!-- NAVEGAÇÃO PRINCIPAL -->
+    <nav class="main-nav" role="navigation" aria-label="Menu Principal">
+        <div class="container nav-content">
+            <h1 class="logo">Susteencar ⚡</h1>
+            <ul>
+                <li><a href="#catalogo">Catálogo</a></li>
+                <li><a href="#lojas">Loja Mais Próxima</a></li>
+                <li><a href="#conta">Minha Conta</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- SEÇÃO HERO -->
+        <section class="hero" aria-labelledby="hero-title">
+            <h2 id="hero-title">O Futuro da Mobilidade Sustentável</h2>
+            <p>Carros 100% elétricos com alta tecnologia, performance e zero emissões.</p>
+        </section>
+
+        <!-- CONTA / LOGIN / CADASTRO -->
+        <section id="conta" class="card-glass" aria-labelledby="account-title">
+            <h2 id="account-title">Acesse sua Conta ou Cadastre-se</h2>
+            <form id="auth-form" class="grid-form">
+                <div class="form-group">
+                    <label for="user-email">E-mail:*</label>
+                    <input type="email" id="user-email" required placeholder="seuemail@exemplo.com">
+                </div>
+                <div class="form-group">
+                    <label for="user-password">Senha:*</label>
+                    <input type="password" id="user-password" required placeholder="******">
+                </div>
+                <div class="form-group">
+                    <label for="user-cep">Digite seu CEP (para localizar a loja mais próxima):*</label>
+                    <input type="text" id="user-cep" placeholder="00000-000">
+                </div>
+                <div class="form-buttons">
+                    <button type="button" class="btn-primary" onclick="salvarUsuario()">Entrar / Cadastrar</button>
+                </div>
+            </form>
+            <div id="near-store-result" class="store-info" aria-live="polite"></div>
+        </section>
+
+        <!-- FILTROS -->
+        <section class="card-glass" aria-labelledby="filter-title">
+            <h2 id="filter-title">Filtrar Veículos</h2>
+            <div class="filters-grid">
+                <div>
+                    <label for="filter-price">Preço Máximo:</label>
+                    <select id="filter-price">
+                        <option value="all">Todos os preços</option>
+                        <option value="200000">Até R$ 200.000</option>
+                        <option value="350000">Até R$ 350.000</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="filter-engine">Motorização / Potência:</label>
+                    <select id="filter-engine">
+                        <option value="all">Todas</option>
+                        <option value="150hp">Até 150 cv</option>
+                        <option value="300hp">Acima de 150 cv</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="filter-color">Cor:</label>
+                    <select id="filter-color">
+                        <option value="all">Todas as cores</option>
+                        <option value="Azul">Azul Cyber</option>
+                        <option value="Roxo">Roxo Neon</option>
+                        <option value="Prata">Prata Estelar</option>
+                    </select>
+                </div>
+                <button class="btn-primary" onclick="aplicarFiltros()">Aplicar Filtros</button>
+            </div>
+        </section>
+
+        <!-- CATÁLOGO DE PRODUTOS -->
+        <section id="catalogo" aria-labelledby="catalog-title">
+            <h2 id="catalog-title">Nossos Modelos Elétricos</h2>
+            <div id="products-grid" class="products-grid">
+                <!-- Produtos renderizados via JS -->
+            </div>
+        </section>
+    </main>
+
+    <!-- MODAL DE PAGAMENTO -->
+    <div id="payment-modal" class="modal" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
+        <div class="modal-content card-glass">
+            <button class="close-btn" onclick="fecharModal()" aria-label="Fechar Modal">&times;</button>
+            <h2 id="modal-title">Finalizar Compra</h2>
+            <p id="modal-product-name"></p>
+            <p id="modal-product-price" class="price-tag"></p>
+            
+            <fieldset>
+                <legend>Forma de Pagamento</legend>
+                <div class="payment-options">
+                    <label><input type="radio" name="payment" value="pix" checked> PIX (5% de desconto)</label>
+                    <label><input type="radio" name="payment" value="boleto"> Boleto Bancário</label>
+                    <label><input type="radio" name="payment" value="card"> Cartão de Crédito</label>
+                </div>
+            </fieldset>
+
+            <button class="btn-primary full-width" onclick="confirmarPagamento()">Pagar Agora</button>
+        </div>
+    </div>
+
+    <!-- TRADUÇÃO EM LIBRAS (HANDTALK OU VLIBRAS INTEGRÁVEL) -->
+    <div class="libras-placeholder" aria-label="Suporte à Língua Brasileira de Sinais - Libras">
+        <button class="btn-libras" title="Acessível em Libras">🤟 Libras Ativo</button>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Susteencar - Todos os direitos reservados. Foco em sustentabilidade e acessibilidade universal.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
